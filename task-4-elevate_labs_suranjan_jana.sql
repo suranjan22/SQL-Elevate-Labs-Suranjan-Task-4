@@ -1,0 +1,42 @@
+-- task-4 --------
+-- suranjan jana
+-- elevate labs
+
+-- 1. Total number of orders and average order amount per customer
+SELECT
+  customer_id,
+  COUNT(order_id) AS total_orders,
+  AVG(total_amount) AS average_order_amount
+FROM OrderTable
+GROUP BY
+  customer_id;
+
+-- 2. Total revenue generated per product category
+SELECT
+  C.name AS category_name,
+  SUM(OI.quantity * OI.price) AS total_revenue
+FROM OrderItem AS OI
+  JOIN ProductCategory AS PC
+    ON OI.product_id = PC.product_id
+  JOIN Category AS C
+    ON PC.category_id = C.category_id
+GROUP BY
+  C.name;
+
+-- 3. Customers who have placed more than one order
+SELECT
+  customer_id,
+  COUNT(order_id) AS number_of_orders
+FROM OrderTable
+GROUP BY
+  customer_id
+HAVING
+  COUNT(order_id) > 1;
+
+-- 4. Products with a total stock count less than 100
+SELECT
+  name AS product_name,
+  stock AS total_stock
+FROM Product
+WHERE
+  stock < 100;
